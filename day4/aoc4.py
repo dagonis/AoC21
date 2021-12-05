@@ -8,7 +8,6 @@ class Number:
 @dataclass
 class Board:
     raw_numbers: list
-    won: bool = False
 
     def __post_init__(self):
         numbers = []
@@ -23,22 +22,14 @@ class Board:
         for n in range(0,5):
             self.columns.append(numbers[n::5])
 
-    
-    def check_for_win(self) -> bool:
+    @property
+    def won(self) -> bool:
         for row in self.rows:
-            row_win = 0
-            for number in row:
-                if number.marked:
-                    row_win += 1
-                    if row_win == 5:
-                        return True
+            if all([_.marked for _ in row]):
+                return True
         for column in self.columns:
-            col_win = 0
-            for number in column:
-                if number.marked:
-                    col_win += 1
-                    if col_win == 5:
-                        return True
+            if all([_.marked for _ in column]):
+                return True
         return False
     
     def sum_unmarked_numbers(self):
@@ -73,15 +64,10 @@ def main() -> None:
                 for number in board.numbers:
                     if call == number.val:
                         number.marked = True
-                        if board.check_for_win():
+                        if board.won:
                             winning_board = board
                             last_call = call
                             won = True
-                            break
-                        else:
-                            pass
-                    else:
-                        pass
     print(winning_board.sum_unmarked_numbers() * int(last_call))
     ##########
     # Part 2 #
@@ -95,8 +81,7 @@ def main() -> None:
                 for number in board.numbers:
                     if call == number.val:
                         number.marked = True
-                        if board.check_for_win():
-                            board.won = True
+                        if board.won:
                             winning_boards.append(board)
                             last_call = call
     print(winning_boards[-1].sum_unmarked_numbers() * int(last_call))
