@@ -27,7 +27,7 @@ class Paper:
         self.grid = top_half
             
     def __str__(self):
-        return "\n".join(["".join([_ for _ in _]) for _ in self.grid])        
+        return "\n".join(["".join([_.replace('.', ' ') for _ in _]) for _ in self.grid])        
 
 
 def main() -> None:
