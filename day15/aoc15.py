@@ -102,7 +102,7 @@ class Node:
 
 
 def main() -> None:
-    with open("input.txt", "r") as input_file:
+    with open("test.txt", "r") as input_file:
         position_matrix = [list(_) for _ in [_.strip() for _ in input_file]]
     for line in position_matrix:
         for index, number in enumerate(line):
